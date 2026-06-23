@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always" serverName="root@10.24.123.42:46257 password (2)" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="root@10.24.123.42:38705 password">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/share/priv/wangmengxiang/code/WeCLIP_plus" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="root@10.24.123.42:46257 password">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/pycharm_project_944" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="root@10.24.123.42:46257 password (2)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/share/priv/wangmengxiang/code/WeCLIP_plus" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>

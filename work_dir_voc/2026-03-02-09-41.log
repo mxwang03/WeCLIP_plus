@@ -1,0 +1,683 @@
+2026-03-02 09:41:37,136 - dist_clip_voc.py - INFO: 
+args: Namespace(config='configs/voc_attn_reg.yaml', radius=8, seg_detach=False, work_dir=None)
+2026-03-02 09:41:37,136 - dist_clip_voc.py - INFO: 
+configs: {'dataset': {'root_dir': '/home/share/priv/wangmengxiang/code/data/VOCdevkit/VOC2012', 'name_list_dir': '/home/share/priv/wangmengxiang/code/WeCLIP_plus/datasets/voc', 'num_classes': 21, 'crop_size': 320, 'resize_range': [512, 2048], 'rescale_range': [0.5, 2.0], 'ignore_index': 255}, 'work_dir': {'dir': 'work_dir_voc', 'ckpt_dir': 'work_dir_voc/checkpoints/2026-03-02-09-41', 'pred_dir': 'work_dir_voc/predictions', 'segs_dir': 'segs', 'tb_logger_dir': 'work_dir_voc/tb_logger/2026-03-02-09-41'}, 'train': {'split': 'train_aug', 'samples_per_gpu': 4, 'max_iters': 30000, 'cam_iters': 2000, 'eval_iters': 2000, 'log_iters': 200}, 'val': {'split': 'train'}, 'optimizer': {'type': 'AdamW', 'learning_rate': 2e-05, 'betas': [0.9, 0.999], 'weight_decay': 0.01}, 'scheduler': {'warmup_iter': 50, 'warmup_ratio': 1e-06, 'power': 1.0}, 'clip_init': {'clip_pretrain_path': '/home/share/priv/wangmengxiang/code/WeCLIP_plus/pretrained/ViT-B-16.pt', 'embedding_dim': 256, 'in_channels': [768, 768, 768, 768], 'clip_flag': 16, 'resize_long': 512}, 'dino_init': {'dino_model': 'dinov2_vits14', 'dino_fts_fuse_dim': 384, 'decoder_layer': 3}}
+2026-03-02 09:41:39,902 - vision_transformer.py - INFO: using MLP layer as FFN
+2026-03-02 09:42:11,615 - dist_clip_voc.py - INFO: 
+Network config: 
+WeCLIP_Plus(
+  (encoder): CLIP(
+    (visual): VisionTransformer(
+      (conv1): Conv2d(3, 768, kernel_size=(16, 16), stride=(16, 16), bias=False)
+      (ln_pre): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+      (transformer): Transformer(
+        (resblocks): Sequential(
+          (0): ResidualAttentionBlock(
+            (attn): MultiheadAttention(
+              (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+            )
+            (ln_1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+            (mlp): Sequential(
+              (c_fc): Linear(in_features=768, out_features=3072, bias=True)
+              (gelu): QuickGELU()
+              (c_proj): Linear(in_features=3072, out_features=768, bias=True)
+            )
+            (ln_2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+          )
+          (1): ResidualAttentionBlock(
+            (attn): MultiheadAttention(
+              (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+            )
+            (ln_1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+            (mlp): Sequential(
+              (c_fc): Linear(in_features=768, out_features=3072, bias=True)
+              (gelu): QuickGELU()
+              (c_proj): Linear(in_features=3072, out_features=768, bias=True)
+            )
+            (ln_2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+          )
+          (2): ResidualAttentionBlock(
+            (attn): MultiheadAttention(
+              (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+            )
+            (ln_1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+            (mlp): Sequential(
+              (c_fc): Linear(in_features=768, out_features=3072, bias=True)
+              (gelu): QuickGELU()
+              (c_proj): Linear(in_features=3072, out_features=768, bias=True)
+            )
+            (ln_2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+          )
+          (3): ResidualAttentionBlock(
+            (attn): MultiheadAttention(
+              (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+            )
+            (ln_1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+            (mlp): Sequential(
+              (c_fc): Linear(in_features=768, out_features=3072, bias=True)
+              (gelu): QuickGELU()
+              (c_proj): Linear(in_features=3072, out_features=768, bias=True)
+            )
+            (ln_2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+          )
+          (4): ResidualAttentionBlock(
+            (attn): MultiheadAttention(
+              (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+            )
+            (ln_1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+            (mlp): Sequential(
+              (c_fc): Linear(in_features=768, out_features=3072, bias=True)
+              (gelu): QuickGELU()
+              (c_proj): Linear(in_features=3072, out_features=768, bias=True)
+            )
+            (ln_2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+          )
+          (5): ResidualAttentionBlock(
+            (attn): MultiheadAttention(
+              (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+            )
+            (ln_1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+            (mlp): Sequential(
+              (c_fc): Linear(in_features=768, out_features=3072, bias=True)
+              (gelu): QuickGELU()
+              (c_proj): Linear(in_features=3072, out_features=768, bias=True)
+            )
+            (ln_2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+          )
+          (6): ResidualAttentionBlock(
+            (attn): MultiheadAttention(
+              (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+            )
+            (ln_1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+            (mlp): Sequential(
+              (c_fc): Linear(in_features=768, out_features=3072, bias=True)
+              (gelu): QuickGELU()
+              (c_proj): Linear(in_features=3072, out_features=768, bias=True)
+            )
+            (ln_2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+          )
+          (7): ResidualAttentionBlock(
+            (attn): MultiheadAttention(
+              (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+            )
+            (ln_1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+            (mlp): Sequential(
+              (c_fc): Linear(in_features=768, out_features=3072, bias=True)
+              (gelu): QuickGELU()
+              (c_proj): Linear(in_features=3072, out_features=768, bias=True)
+            )
+            (ln_2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+          )
+          (8): ResidualAttentionBlock(
+            (attn): MultiheadAttention(
+              (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+            )
+            (ln_1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+            (mlp): Sequential(
+              (c_fc): Linear(in_features=768, out_features=3072, bias=True)
+              (gelu): QuickGELU()
+              (c_proj): Linear(in_features=3072, out_features=768, bias=True)
+            )
+            (ln_2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+          )
+          (9): ResidualAttentionBlock(
+            (attn): MultiheadAttention(
+              (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+            )
+            (ln_1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+            (mlp): Sequential(
+              (c_fc): Linear(in_features=768, out_features=3072, bias=True)
+              (gelu): QuickGELU()
+              (c_proj): Linear(in_features=3072, out_features=768, bias=True)
+            )
+            (ln_2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+          )
+          (10): ResidualAttentionBlock(
+            (attn): MultiheadAttention(
+              (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+            )
+            (ln_1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+            (mlp): Sequential(
+              (c_fc): Linear(in_features=768, out_features=3072, bias=True)
+              (gelu): QuickGELU()
+              (c_proj): Linear(in_features=3072, out_features=768, bias=True)
+            )
+            (ln_2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+          )
+          (11): ResidualAttentionBlock(
+            (attn): MultiheadAttention(
+              (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+            )
+            (ln_1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+            (mlp): Sequential(
+              (c_fc): Linear(in_features=768, out_features=3072, bias=True)
+              (gelu): QuickGELU()
+              (c_proj): Linear(in_features=3072, out_features=768, bias=True)
+            )
+            (ln_2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+          )
+        )
+      )
+      (ln_post): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+    )
+    (transformer): Transformer(
+      (resblocks): Sequential(
+        (0): ResidualAttentionBlock(
+          (attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=512, out_features=512, bias=True)
+          )
+          (ln_1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+          (mlp): Sequential(
+            (c_fc): Linear(in_features=512, out_features=2048, bias=True)
+            (gelu): QuickGELU()
+            (c_proj): Linear(in_features=2048, out_features=512, bias=True)
+          )
+          (ln_2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        )
+        (1): ResidualAttentionBlock(
+          (attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=512, out_features=512, bias=True)
+          )
+          (ln_1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+          (mlp): Sequential(
+            (c_fc): Linear(in_features=512, out_features=2048, bias=True)
+            (gelu): QuickGELU()
+            (c_proj): Linear(in_features=2048, out_features=512, bias=True)
+          )
+          (ln_2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        )
+        (2): ResidualAttentionBlock(
+          (attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=512, out_features=512, bias=True)
+          )
+          (ln_1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+          (mlp): Sequential(
+            (c_fc): Linear(in_features=512, out_features=2048, bias=True)
+            (gelu): QuickGELU()
+            (c_proj): Linear(in_features=2048, out_features=512, bias=True)
+          )
+          (ln_2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        )
+        (3): ResidualAttentionBlock(
+          (attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=512, out_features=512, bias=True)
+          )
+          (ln_1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+          (mlp): Sequential(
+            (c_fc): Linear(in_features=512, out_features=2048, bias=True)
+            (gelu): QuickGELU()
+            (c_proj): Linear(in_features=2048, out_features=512, bias=True)
+          )
+          (ln_2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        )
+        (4): ResidualAttentionBlock(
+          (attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=512, out_features=512, bias=True)
+          )
+          (ln_1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+          (mlp): Sequential(
+            (c_fc): Linear(in_features=512, out_features=2048, bias=True)
+            (gelu): QuickGELU()
+            (c_proj): Linear(in_features=2048, out_features=512, bias=True)
+          )
+          (ln_2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        )
+        (5): ResidualAttentionBlock(
+          (attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=512, out_features=512, bias=True)
+          )
+          (ln_1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+          (mlp): Sequential(
+            (c_fc): Linear(in_features=512, out_features=2048, bias=True)
+            (gelu): QuickGELU()
+            (c_proj): Linear(in_features=2048, out_features=512, bias=True)
+          )
+          (ln_2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        )
+        (6): ResidualAttentionBlock(
+          (attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=512, out_features=512, bias=True)
+          )
+          (ln_1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+          (mlp): Sequential(
+            (c_fc): Linear(in_features=512, out_features=2048, bias=True)
+            (gelu): QuickGELU()
+            (c_proj): Linear(in_features=2048, out_features=512, bias=True)
+          )
+          (ln_2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        )
+        (7): ResidualAttentionBlock(
+          (attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=512, out_features=512, bias=True)
+          )
+          (ln_1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+          (mlp): Sequential(
+            (c_fc): Linear(in_features=512, out_features=2048, bias=True)
+            (gelu): QuickGELU()
+            (c_proj): Linear(in_features=2048, out_features=512, bias=True)
+          )
+          (ln_2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        )
+        (8): ResidualAttentionBlock(
+          (attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=512, out_features=512, bias=True)
+          )
+          (ln_1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+          (mlp): Sequential(
+            (c_fc): Linear(in_features=512, out_features=2048, bias=True)
+            (gelu): QuickGELU()
+            (c_proj): Linear(in_features=2048, out_features=512, bias=True)
+          )
+          (ln_2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        )
+        (9): ResidualAttentionBlock(
+          (attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=512, out_features=512, bias=True)
+          )
+          (ln_1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+          (mlp): Sequential(
+            (c_fc): Linear(in_features=512, out_features=2048, bias=True)
+            (gelu): QuickGELU()
+            (c_proj): Linear(in_features=2048, out_features=512, bias=True)
+          )
+          (ln_2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        )
+        (10): ResidualAttentionBlock(
+          (attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=512, out_features=512, bias=True)
+          )
+          (ln_1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+          (mlp): Sequential(
+            (c_fc): Linear(in_features=512, out_features=2048, bias=True)
+            (gelu): QuickGELU()
+            (c_proj): Linear(in_features=2048, out_features=512, bias=True)
+          )
+          (ln_2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        )
+        (11): ResidualAttentionBlock(
+          (attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=512, out_features=512, bias=True)
+          )
+          (ln_1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+          (mlp): Sequential(
+            (c_fc): Linear(in_features=512, out_features=2048, bias=True)
+            (gelu): QuickGELU()
+            (c_proj): Linear(in_features=2048, out_features=512, bias=True)
+          )
+          (ln_2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        )
+      )
+    )
+    (token_embedding): Embedding(49408, 512)
+    (ln_final): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+  )
+  (dino_encoder): DinoVisionTransformer(
+    (patch_embed): PatchEmbed(
+      (proj): Conv2d(3, 384, kernel_size=(14, 14), stride=(14, 14))
+      (norm): Identity()
+    )
+    (blocks): ModuleList(
+      (0-11): 12 x NestedTensorBlock(
+        (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+        (attn): MemEffAttention(
+          (qkv): Linear(in_features=384, out_features=1152, bias=True)
+          (proj): Linear(in_features=384, out_features=384, bias=True)
+          (proj_drop): Dropout(p=0.0, inplace=False)
+        )
+        (ls1): LayerScale()
+        (drop_path1): Identity()
+        (norm2): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=384, out_features=1536, bias=True)
+          (act): GELU(approximate='none')
+          (fc2): Linear(in_features=1536, out_features=384, bias=True)
+          (drop): Dropout(p=0.0, inplace=False)
+        )
+        (ls2): LayerScale()
+        (drop_path2): Identity()
+      )
+    )
+    (norm): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+    (head): Identity()
+  )
+  (decoder_fts_fuse): SegFormerHead(
+    (linears_modulelist): ModuleList(
+      (0): MLP(
+        (proj): Linear(in_features=768, out_features=256, bias=True)
+        (proj_2): Linear(in_features=256, out_features=256, bias=True)
+      )
+    )
+    (linear_fuse): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1))
+    (dropout): Dropout2d(p=0.1, inplace=False)
+  )
+  (dino_decoder_fts_fuse): SegFormerHead(
+    (linears_modulelist): ModuleList(
+      (0): MLP(
+        (proj): Linear(in_features=384, out_features=256, bias=True)
+        (proj_2): Linear(in_features=256, out_features=256, bias=True)
+      )
+    )
+    (linear_fuse): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1))
+    (dropout): Dropout2d(p=0.1, inplace=False)
+  )
+  (decoder): DecoderTransformer(
+    (transformer): Transformer(
+      (resblocks): Sequential(
+        (0): ResidualAttentionBlock(
+          (attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=256, out_features=256, bias=True)
+          )
+          (ln_1): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (mlp): Sequential(
+            (c_fc): Linear(in_features=256, out_features=1024, bias=True)
+            (gelu): QuickGELU()
+            (c_proj): Linear(in_features=1024, out_features=256, bias=True)
+          )
+          (ln_2): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+        )
+        (1): ResidualAttentionBlock(
+          (attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=256, out_features=256, bias=True)
+          )
+          (ln_1): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (mlp): Sequential(
+            (c_fc): Linear(in_features=256, out_features=1024, bias=True)
+            (gelu): QuickGELU()
+            (c_proj): Linear(in_features=1024, out_features=256, bias=True)
+          )
+          (ln_2): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+        )
+        (2): ResidualAttentionBlock(
+          (attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=256, out_features=256, bias=True)
+          )
+          (ln_1): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (mlp): Sequential(
+            (c_fc): Linear(in_features=256, out_features=1024, bias=True)
+            (gelu): QuickGELU()
+            (c_proj): Linear(in_features=1024, out_features=256, bias=True)
+          )
+          (ln_2): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+        )
+      )
+    )
+    (linear_pred): Conv2d(256, 21, kernel_size=(1, 1), stride=(1, 1))
+  )
+  (par): PAR()
+)
+2026-03-02 09:42:11,789 - dist_clip_voc.py - INFO: 
+Optimizer: 
+PolyWarmupAdamW (
+Parameter Group 0
+    amsgrad: False
+    betas: [0.9, 0.999]
+    capturable: False
+    differentiable: False
+    eps: 1e-08
+    foreach: None
+    fused: None
+    lr: 2e-05
+    maximize: False
+    weight_decay: 0.01
+
+Parameter Group 1
+    amsgrad: False
+    betas: [0.9, 0.999]
+    capturable: False
+    differentiable: False
+    eps: 1e-08
+    foreach: None
+    fused: None
+    lr: 0.0
+    maximize: False
+    weight_decay: 0.0
+
+Parameter Group 2
+    amsgrad: False
+    betas: [0.9, 0.999]
+    capturable: False
+    differentiable: False
+    eps: 1e-08
+    foreach: None
+    fused: None
+    lr: 0.0002
+    maximize: False
+    weight_decay: 0.01
+
+Parameter Group 3
+    amsgrad: False
+    betas: [0.9, 0.999]
+    capturable: False
+    differentiable: False
+    eps: 1e-08
+    foreach: None
+    fused: None
+    lr: 0.0002
+    maximize: False
+    weight_decay: 0.01
+)
+2026-03-02 09:43:51,885 - dist_clip_voc.py - INFO: Iter: 200; Elasped: 0:02:14; ETA: 5:32:46; LR: 1.987e-05;, pseudo_seg_loss: 1.4109, attn_loss: 0.4547, pseudo_seg_mAcc: 0.7180
+2026-03-02 09:45:29,657 - dist_clip_voc.py - INFO: Iter: 400; Elasped: 0:03:52; ETA: 4:46:08; LR: 1.973e-05;, pseudo_seg_loss: 0.7811, attn_loss: 0.3424, pseudo_seg_mAcc: 0.6565
+2026-03-02 09:47:08,449 - dist_clip_voc.py - INFO: Iter: 600; Elasped: 0:05:31; ETA: 4:30:19; LR: 1.960e-05;, pseudo_seg_loss: 0.6829, attn_loss: 0.2935, pseudo_seg_mAcc: 0.8390
+2026-03-02 09:48:45,827 - dist_clip_voc.py - INFO: Iter: 800; Elasped: 0:07:08; ETA: 4:20:22; LR: 1.947e-05;, pseudo_seg_loss: 0.5892, attn_loss: 0.2777, pseudo_seg_mAcc: 0.7741
+2026-03-02 09:50:25,614 - dist_clip_voc.py - INFO: Iter: 1000; Elasped: 0:08:48; ETA: 4:15:12; LR: 1.933e-05;, pseudo_seg_loss: 0.5753, attn_loss: 0.2723, pseudo_seg_mAcc: 0.7976
+2026-03-02 09:52:03,909 - dist_clip_voc.py - INFO: Iter: 1200; Elasped: 0:10:26; ETA: 4:10:24; LR: 1.920e-05;, pseudo_seg_loss: 0.5824, attn_loss: 0.2572, pseudo_seg_mAcc: 0.8678
+2026-03-02 09:53:42,331 - dist_clip_voc.py - INFO: Iter: 1400; Elasped: 0:12:05; ETA: 4:06:50; LR: 1.907e-05;, pseudo_seg_loss: 0.5539, attn_loss: 0.2562, pseudo_seg_mAcc: 0.8372
+2026-03-02 09:55:20,070 - dist_clip_voc.py - INFO: Iter: 1600; Elasped: 0:13:43; ETA: 4:03:28; LR: 1.893e-05;, pseudo_seg_loss: 0.5729, attn_loss: 0.2455, pseudo_seg_mAcc: 0.9181
+2026-03-02 09:56:53,668 - dist_clip_voc.py - INFO: Iter: 1800; Elasped: 0:15:16; ETA: 3:59:10; LR: 1.880e-05;, pseudo_seg_loss: 0.5390, attn_loss: 0.2461, pseudo_seg_mAcc: 0.7252
+2026-03-02 09:58:29,584 - dist_clip_voc.py - INFO: Iter: 2000; Elasped: 0:16:52; ETA: 3:56:08; LR: 1.867e-05;, pseudo_seg_loss: 0.5962, attn_loss: 0.2419, pseudo_seg_mAcc: 0.9207
+2026-03-02 09:58:29,589 - dist_clip_voc.py - INFO: Validating...
+2026-03-02 10:02:44,670 - dist_clip_voc.py - INFO: cams score:
+2026-03-02 10:02:44,679 - dist_clip_voc.py - INFO: {'pAcc': 0.9243052826333019, 'mAcc': 0.897090580567418, 'miou': 0.7491644648589545, 'iou': {0: 0.9079095047523502, 1: 0.8507080285234111, 2: 0.5115098297521348, 3: 0.9194531828863897, 4: 0.7295230227526783, 5: 0.5159033501915571, 6: 0.8794297246597292, 7: 0.7708390954856293, 8: 0.9546269653099417, 9: 0.510558410016271, 10: 0.8717893376715963, 11: 0.6751764490010054, 12: 0.9354020783970859, 13: 0.8586206365282459, 14: 0.8275057394648565, 15: 0.7576525542762383, 16: 0.38762264694427717, 17: 0.9268988004779097, 18: 0.6953182572853565, 19: 0.8261125053818484, 20: 0.4198936422795353}}
+2026-03-02 10:02:44,679 - dist_clip_voc.py - INFO: segs score:
+2026-03-02 10:02:44,679 - dist_clip_voc.py - INFO: {'pAcc': 0.9224932485847704, 'mAcc': 0.8962845829053772, 'miou': 0.7347637098145272, 'iou': {0: 0.9119371734668593, 1: 0.8587495543383139, 2: 0.385078375335585, 3: 0.9090772407518779, 4: 0.8050583798701666, 5: 0.756837649273385, 6: 0.8565452045652812, 7: 0.8475218832091514, 8: 0.9221842093546315, 9: 0.37568821354942994, 10: 0.7161918271392492, 11: 0.6258490131736939, 12: 0.9165678714505985, 13: 0.80190671096228, 14: 0.8042490789672898, 15: 0.8071897408181027, 16: 0.6102881368896076, 17: 0.8458715236822615, 18: 0.4730089598310482, 19: 0.8208306605797867, 20: 0.37940649889647077}}
+2026-03-02 10:04:29,266 - dist_clip_voc.py - INFO: Iter: 2200; Elasped: 0:22:52; ETA: 4:48:57; LR: 1.853e-05;, pseudo_seg_loss: 0.5683, attn_loss: 0.2528, pseudo_seg_mAcc: 0.8705
+2026-03-02 10:06:04,335 - dist_clip_voc.py - INFO: Iter: 2400; Elasped: 0:24:27; ETA: 4:41:10; LR: 1.840e-05;, pseudo_seg_loss: 0.5693, attn_loss: 0.2377, pseudo_seg_mAcc: 0.9800
+2026-03-02 10:07:43,496 - dist_clip_voc.py - INFO: Iter: 2600; Elasped: 0:26:06; ETA: 4:35:03; LR: 1.827e-05;, pseudo_seg_loss: 0.5514, attn_loss: 0.2362, pseudo_seg_mAcc: 0.9410
+2026-03-02 10:09:19,875 - dist_clip_voc.py - INFO: Iter: 2800; Elasped: 0:27:42; ETA: 4:29:05; LR: 1.813e-05;, pseudo_seg_loss: 0.6098, attn_loss: 0.2348, pseudo_seg_mAcc: 0.7261
+2026-03-02 10:10:54,869 - dist_clip_voc.py - INFO: Iter: 3000; Elasped: 0:29:17; ETA: 4:23:33; LR: 1.800e-05;, pseudo_seg_loss: 0.5431, attn_loss: 0.2363, pseudo_seg_mAcc: 0.9678
+2026-03-02 10:12:33,932 - dist_clip_voc.py - INFO: Iter: 3200; Elasped: 0:30:56; ETA: 4:19:04; LR: 1.787e-05;, pseudo_seg_loss: 0.5341, attn_loss: 0.2363, pseudo_seg_mAcc: 0.8934
+2026-03-02 10:14:13,402 - dist_clip_voc.py - INFO: Iter: 3400; Elasped: 0:32:36; ETA: 4:15:02; LR: 1.773e-05;, pseudo_seg_loss: 0.5604, attn_loss: 0.2326, pseudo_seg_mAcc: 0.8421
+2026-03-02 10:15:50,472 - dist_clip_voc.py - INFO: Iter: 3600; Elasped: 0:34:13; ETA: 4:10:55; LR: 1.760e-05;, pseudo_seg_loss: 0.5217, attn_loss: 0.2388, pseudo_seg_mAcc: 0.8551
+2026-03-02 10:17:25,625 - dist_clip_voc.py - INFO: Iter: 3800; Elasped: 0:35:48; ETA: 4:06:49; LR: 1.747e-05;, pseudo_seg_loss: 0.5584, attn_loss: 0.2454, pseudo_seg_mAcc: 0.6528
+2026-03-02 10:19:03,948 - dist_clip_voc.py - INFO: Iter: 4000; Elasped: 0:37:26; ETA: 4:03:19; LR: 1.733e-05;, pseudo_seg_loss: 0.5225, attn_loss: 0.2314, pseudo_seg_mAcc: 0.7503
+2026-03-02 10:19:03,953 - dist_clip_voc.py - INFO: Validating...
+2026-03-02 10:23:14,448 - dist_clip_voc.py - INFO: cams score:
+2026-03-02 10:23:14,453 - dist_clip_voc.py - INFO: {'pAcc': 0.9190436151878144, 'mAcc': 0.8770313782086733, 'miou': 0.7403499639036994, 'iou': {0: 0.9012287236696488, 1: 0.8764607559743154, 2: 0.5397685221636092, 3: 0.909129468043473, 4: 0.7182768999204524, 5: 0.5192298428020113, 6: 0.8696599384240995, 7: 0.6884487438740713, 8: 0.9549047214741254, 9: 0.43689010929844396, 10: 0.8806618248308089, 11: 0.6205926114781126, 12: 0.9264615409018448, 13: 0.8732665941312286, 14: 0.8243663256543828, 15: 0.7145103376782123, 16: 0.3395316684250635, 17: 0.9205313325535817, 18: 0.6557631916583508, 19: 0.8121821828941782, 20: 0.5654839061276727}}
+2026-03-02 10:23:14,453 - dist_clip_voc.py - INFO: segs score:
+2026-03-02 10:23:14,453 - dist_clip_voc.py - INFO: {'pAcc': 0.9196556237784392, 'mAcc': 0.8065188542914006, 'miou': 0.7121773235837576, 'iou': {0: 0.9077849120589739, 1: 0.8707284846973719, 2: 0.18142405178290033, 3: 0.9098542227019921, 4: 0.7995506463678186, 5: 0.740147199547484, 6: 0.849327373514876, 7: 0.3838671281486625, 8: 0.941816296530754, 9: 0.402697580001867, 10: 0.814389379614771, 11: 0.5858904401498808, 12: 0.8969283410117788, 13: 0.8402602294020582, 14: 0.6284610510699463, 15: 0.8428047783205327, 16: 0.6247828338418291, 17: 0.8861194562064292, 18: 0.44698700523665597, 19: 0.8364532376848666, 20: 0.5654491473674609}}
+2026-03-02 10:24:50,773 - dist_clip_voc.py - INFO: Iter: 4200; Elasped: 0:43:13; ETA: 4:25:28; LR: 1.720e-05;, pseudo_seg_loss: 0.5585, attn_loss: 0.2395, pseudo_seg_mAcc: 0.8572
+2026-03-02 10:26:25,260 - dist_clip_voc.py - INFO: Iter: 4400; Elasped: 0:44:48; ETA: 4:20:39; LR: 1.707e-05;, pseudo_seg_loss: 0.5199, attn_loss: 0.2339, pseudo_seg_mAcc: 0.6427
+2026-03-02 10:28:02,834 - dist_clip_voc.py - INFO: Iter: 4600; Elasped: 0:46:25; ETA: 4:16:18; LR: 1.693e-05;, pseudo_seg_loss: 0.4624, attn_loss: 0.2358, pseudo_seg_mAcc: 0.9601
+2026-03-02 10:29:38,880 - dist_clip_voc.py - INFO: Iter: 4800; Elasped: 0:48:01; ETA: 4:12:05; LR: 1.680e-05;, pseudo_seg_loss: 0.5550, attn_loss: 0.2404, pseudo_seg_mAcc: 0.9329
+2026-03-02 10:31:12,825 - dist_clip_voc.py - INFO: Iter: 5000; Elasped: 0:49:35; ETA: 4:07:55; LR: 1.667e-05;, pseudo_seg_loss: 0.5437, attn_loss: 0.2313, pseudo_seg_mAcc: 0.8529
+2026-03-02 10:32:40,820 - dist_clip_voc.py - INFO: Iter: 5200; Elasped: 0:51:03; ETA: 4:03:28; LR: 1.653e-05;, pseudo_seg_loss: 0.4652, attn_loss: 0.2265, pseudo_seg_mAcc: 0.9416
+2026-03-02 10:34:09,378 - dist_clip_voc.py - INFO: Iter: 5400; Elasped: 0:52:32; ETA: 3:59:19; LR: 1.640e-05;, pseudo_seg_loss: 0.4849, attn_loss: 0.2262, pseudo_seg_mAcc: 0.9110
+2026-03-02 10:35:34,145 - dist_clip_voc.py - INFO: Iter: 5600; Elasped: 0:53:57; ETA: 3:55:04; LR: 1.627e-05;, pseudo_seg_loss: 0.5838, attn_loss: 0.2302, pseudo_seg_mAcc: 0.9382
+2026-03-02 10:37:04,301 - dist_clip_voc.py - INFO: Iter: 5800; Elasped: 0:55:27; ETA: 3:51:21; LR: 1.613e-05;, pseudo_seg_loss: 0.5117, attn_loss: 0.2256, pseudo_seg_mAcc: 0.7685
+2026-03-02 10:38:36,159 - dist_clip_voc.py - INFO: Iter: 6000; Elasped: 0:56:59; ETA: 3:47:56; LR: 1.600e-05;, pseudo_seg_loss: 0.5681, attn_loss: 0.2272, pseudo_seg_mAcc: 0.6876
+2026-03-02 10:38:36,164 - dist_clip_voc.py - INFO: Validating...
+2026-03-02 10:42:37,694 - dist_clip_voc.py - INFO: cams score:
+2026-03-02 10:42:37,702 - dist_clip_voc.py - INFO: {'pAcc': 0.9291134569362631, 'mAcc': 0.9033296379034012, 'miou': 0.7701902695044609, 'iou': {0: 0.9139585791654111, 1: 0.8715594174642691, 2: 0.5326773181552242, 3: 0.9134007703975295, 4: 0.7458631522479944, 5: 0.622901308118234, 6: 0.867817769877308, 7: 0.7654419111058622, 8: 0.9519579109893348, 9: 0.5168930651469692, 10: 0.9061158699063463, 11: 0.642701347137442, 12: 0.9328309321479115, 13: 0.8846756127481037, 14: 0.8411725862397466, 15: 0.6957233955570182, 16: 0.5552599915137193, 17: 0.926854690906564, 18: 0.7282730216198277, 19: 0.8565312888966474, 20: 0.5013857202522132}}
+2026-03-02 10:42:37,702 - dist_clip_voc.py - INFO: segs score:
+2026-03-02 10:42:37,703 - dist_clip_voc.py - INFO: {'pAcc': 0.9426284182684403, 'mAcc': 0.871316374316496, 'miou': 0.7738098299215397, 'iou': {0: 0.9343581304565161, 1: 0.865955190481852, 2: 0.5034433664557983, 3: 0.9119742345345074, 4: 0.8201114352324571, 5: 0.7730759555906196, 6: 0.8658741349028256, 7: 0.8242826622843057, 8: 0.9481104506804755, 9: 0.40634964006904206, 10: 0.8625193355658541, 11: 0.5674568613503344, 12: 0.9263224117906572, 13: 0.8666428808114743, 14: 0.8539310812713611, 15: 0.8552306009014493, 16: 0.6765686165824667, 17: 0.9032945588139294, 18: 0.4736579434564843, 19: 0.8554036111823741, 20: 0.5554433259375464}}
+2026-03-02 10:44:02,311 - dist_clip_voc.py - INFO: Iter: 6200; Elasped: 1:02:25; ETA: 3:59:35; LR: 1.587e-05;, pseudo_seg_loss: 0.5588, attn_loss: 0.2370, pseudo_seg_mAcc: 0.7081
+2026-03-02 10:45:26,950 - dist_clip_voc.py - INFO: Iter: 6400; Elasped: 1:03:49; ETA: 3:55:19; LR: 1.573e-05;, pseudo_seg_loss: 0.4653, attn_loss: 0.2297, pseudo_seg_mAcc: 0.8577
+2026-03-02 10:46:52,139 - dist_clip_voc.py - INFO: Iter: 6600; Elasped: 1:05:15; ETA: 3:51:20; LR: 1.560e-05;, pseudo_seg_loss: 0.5034, attn_loss: 0.2245, pseudo_seg_mAcc: 0.9269
+2026-03-02 10:48:16,721 - dist_clip_voc.py - INFO: Iter: 6800; Elasped: 1:06:39; ETA: 3:47:23; LR: 1.547e-05;, pseudo_seg_loss: 0.5298, attn_loss: 0.2266, pseudo_seg_mAcc: 0.8026
+2026-03-02 10:49:43,517 - dist_clip_voc.py - INFO: Iter: 7000; Elasped: 1:08:06; ETA: 3:43:45; LR: 1.533e-05;, pseudo_seg_loss: 0.5238, attn_loss: 0.2319, pseudo_seg_mAcc: 0.9629
+2026-03-02 10:51:08,564 - dist_clip_voc.py - INFO: Iter: 7200; Elasped: 1:09:31; ETA: 3:40:08; LR: 1.520e-05;, pseudo_seg_loss: 0.4882, attn_loss: 0.2146, pseudo_seg_mAcc: 0.9180
+2026-03-02 10:52:35,116 - dist_clip_voc.py - INFO: Iter: 7400; Elasped: 1:10:58; ETA: 3:36:44; LR: 1.507e-05;, pseudo_seg_loss: 0.5267, attn_loss: 0.2238, pseudo_seg_mAcc: 0.8566
+2026-03-02 10:54:01,513 - dist_clip_voc.py - INFO: Iter: 7600; Elasped: 1:12:24; ETA: 3:33:23; LR: 1.493e-05;, pseudo_seg_loss: 0.4808, attn_loss: 0.2202, pseudo_seg_mAcc: 0.6658
+2026-03-02 10:55:26,937 - dist_clip_voc.py - INFO: Iter: 7800; Elasped: 1:13:49; ETA: 3:30:05; LR: 1.480e-05;, pseudo_seg_loss: 0.4736, attn_loss: 0.2166, pseudo_seg_mAcc: 0.7527
+2026-03-02 10:56:53,502 - dist_clip_voc.py - INFO: Iter: 8000; Elasped: 1:15:16; ETA: 3:26:59; LR: 1.467e-05;, pseudo_seg_loss: 0.5331, attn_loss: 0.2297, pseudo_seg_mAcc: 0.9557
+2026-03-02 10:56:53,516 - dist_clip_voc.py - INFO: Validating...
+2026-03-02 11:00:31,411 - dist_clip_voc.py - INFO: cams score:
+2026-03-02 11:00:31,419 - dist_clip_voc.py - INFO: {'pAcc': 0.9233088462727244, 'mAcc': 0.894957761394699, 'miou': 0.7529860260483535, 'iou': {0: 0.9066669046006026, 1: 0.8543925871867727, 2: 0.5378995678286697, 3: 0.903932613211394, 4: 0.6806251589304227, 5: 0.561715517838728, 6: 0.8680214910378813, 7: 0.7171724012245897, 8: 0.958706177074872, 9: 0.5338531551079251, 10: 0.8846244153770105, 11: 0.6091511261337305, 12: 0.9324075222209044, 13: 0.8648015212100103, 14: 0.821955467307215, 15: 0.6750476498289494, 16: 0.45596337754967653, 17: 0.9277923884627258, 18: 0.736285606309831, 19: 0.848958972942299, 20: 0.5327329256312129}}
+2026-03-02 11:00:31,419 - dist_clip_voc.py - INFO: segs score:
+2026-03-02 11:00:31,419 - dist_clip_voc.py - INFO: {'pAcc': 0.933597273456913, 'mAcc': 0.8663392342900467, 'miou': 0.7409288500765392, 'iou': {0: 0.9271041827236401, 1: 0.8536904069601395, 2: 0.5245661982407869, 3: 0.9044796270409231, 4: 0.6971783160702733, 5: 0.7536480992685978, 6: 0.7343973367609954, 7: 0.797376356141027, 8: 0.9513948853865004, 9: 0.4408350328270631, 10: 0.7595490220895111, 11: 0.5753910916620063, 12: 0.9247280378583305, 13: 0.7156772136439553, 14: 0.780167662657987, 15: 0.8343401035764757, 16: 0.660498221709562, 17: 0.9094732674157536, 18: 0.5390136668768924, 19: 0.8419147551744426, 20: 0.4340823675224599}}
+2026-03-02 11:01:53,204 - dist_clip_voc.py - INFO: Iter: 8200; Elasped: 1:20:16; ETA: 3:33:23; LR: 1.453e-05;, pseudo_seg_loss: 0.5463, attn_loss: 0.2207, pseudo_seg_mAcc: 0.8314
+2026-03-02 11:03:14,716 - dist_clip_voc.py - INFO: Iter: 8400; Elasped: 1:21:37; ETA: 3:29:52; LR: 1.440e-05;, pseudo_seg_loss: 0.4940, attn_loss: 0.2198, pseudo_seg_mAcc: 0.8742
+2026-03-02 11:04:37,282 - dist_clip_voc.py - INFO: Iter: 8600; Elasped: 1:23:00; ETA: 3:26:32; LR: 1.427e-05;, pseudo_seg_loss: 0.5628, attn_loss: 0.2317, pseudo_seg_mAcc: 0.7241
+2026-03-02 11:05:59,494 - dist_clip_voc.py - INFO: Iter: 8800; Elasped: 1:24:22; ETA: 3:23:14; LR: 1.413e-05;, pseudo_seg_loss: 0.5012, attn_loss: 0.2213, pseudo_seg_mAcc: 0.8878
+2026-03-02 11:07:21,450 - dist_clip_voc.py - INFO: Iter: 9000; Elasped: 1:25:44; ETA: 3:20:02; LR: 1.400e-05;, pseudo_seg_loss: 0.4912, attn_loss: 0.2187, pseudo_seg_mAcc: 0.7753
+2026-03-02 11:08:44,925 - dist_clip_voc.py - INFO: Iter: 9200; Elasped: 1:27:07; ETA: 3:16:57; LR: 1.387e-05;, pseudo_seg_loss: 0.5478, attn_loss: 0.2270, pseudo_seg_mAcc: 0.9598
+2026-03-02 11:10:10,499 - dist_clip_voc.py - INFO: Iter: 9400; Elasped: 1:28:33; ETA: 3:14:03; LR: 1.373e-05;, pseudo_seg_loss: 0.5093, attn_loss: 0.2152, pseudo_seg_mAcc: 0.9680
+2026-03-02 11:11:37,309 - dist_clip_voc.py - INFO: Iter: 9600; Elasped: 1:30:00; ETA: 3:11:15; LR: 1.360e-05;, pseudo_seg_loss: 0.4811, attn_loss: 0.2125, pseudo_seg_mAcc: 0.9402
+2026-03-02 11:13:01,411 - dist_clip_voc.py - INFO: Iter: 9800; Elasped: 1:31:24; ETA: 3:08:23; LR: 1.347e-05;, pseudo_seg_loss: 0.4659, attn_loss: 0.2097, pseudo_seg_mAcc: 0.9575
+2026-03-02 11:14:24,667 - dist_clip_voc.py - INFO: Iter: 10000; Elasped: 1:32:47; ETA: 3:05:34; LR: 1.333e-05;, pseudo_seg_loss: 0.4846, attn_loss: 0.2057, pseudo_seg_mAcc: 0.7981
+2026-03-02 11:14:24,671 - dist_clip_voc.py - INFO: Validating...
+2026-03-02 11:18:05,873 - dist_clip_voc.py - INFO: cams score:
+2026-03-02 11:18:05,877 - dist_clip_voc.py - INFO: {'pAcc': 0.9163355811532112, 'mAcc': 0.8944514905723127, 'miou': 0.7467997695469141, 'iou': {0: 0.897073061791944, 1: 0.8449909220110439, 2: 0.5320600261256598, 3: 0.9116138782905625, 4: 0.7483385006435528, 5: 0.5389790576228037, 6: 0.8690233304522034, 7: 0.6418103645740431, 8: 0.9560201373689458, 9: 0.5312139442759788, 10: 0.8989863365476584, 11: 0.6570315922748153, 12: 0.9312176515326948, 13: 0.8577206056131189, 14: 0.8307551238991921, 15: 0.6485265688622097, 16: 0.3746251969548544, 17: 0.9292890693002215, 18: 0.7510815717660266, 19: 0.8524657069977346, 20: 0.4799725135799336}}
+2026-03-02 11:18:05,878 - dist_clip_voc.py - INFO: segs score:
+2026-03-02 11:18:05,878 - dist_clip_voc.py - INFO: {'pAcc': 0.9371874879547685, 'mAcc': 0.8729805491322705, 'miou': 0.7564810769749362, 'iou': {0: 0.9278337097706751, 1: 0.8722407150244079, 2: 0.4100044605875231, 3: 0.9032834042151503, 4: 0.7933844296713007, 5: 0.70827790969156, 6: 0.8098906738810441, 7: 0.8052457884583524, 8: 0.9460560357004862, 9: 0.443947391757943, 10: 0.8606177493131238, 11: 0.6938977319346417, 12: 0.9223455299218604, 13: 0.827598677180464, 14: 0.7716429693812681, 15: 0.8429492461850415, 16: 0.6003951807266755, 17: 0.9143509008744645, 18: 0.45061764862825215, 19: 0.8560048007627169, 20: 0.5255176628067088}}
+2026-03-02 11:19:32,198 - dist_clip_voc.py - INFO: Iter: 10200; Elasped: 1:37:55; ETA: 3:10:04; LR: 1.320e-05;, pseudo_seg_loss: 0.5351, attn_loss: 0.2176, pseudo_seg_mAcc: 0.9299
+2026-03-02 11:20:57,756 - dist_clip_voc.py - INFO: Iter: 10400; Elasped: 1:39:20; ETA: 3:07:12; LR: 1.307e-05;, pseudo_seg_loss: 0.5038, attn_loss: 0.2187, pseudo_seg_mAcc: 0.7742
+2026-03-02 11:22:21,365 - dist_clip_voc.py - INFO: Iter: 10600; Elasped: 1:40:44; ETA: 3:04:21; LR: 1.293e-05;, pseudo_seg_loss: 0.4818, attn_loss: 0.2245, pseudo_seg_mAcc: 0.8618
+2026-03-02 11:23:45,475 - dist_clip_voc.py - INFO: Iter: 10800; Elasped: 1:42:08; ETA: 3:01:34; LR: 1.280e-05;, pseudo_seg_loss: 0.4455, attn_loss: 0.2091, pseudo_seg_mAcc: 0.9025
+2026-03-02 11:25:13,375 - dist_clip_voc.py - INFO: Iter: 11000; Elasped: 1:43:36; ETA: 2:58:56; LR: 1.267e-05;, pseudo_seg_loss: 0.4784, attn_loss: 0.2072, pseudo_seg_mAcc: 0.9364
+2026-03-02 11:26:39,857 - dist_clip_voc.py - INFO: Iter: 11200; Elasped: 1:45:02; ETA: 2:56:18; LR: 1.253e-05;, pseudo_seg_loss: 0.4987, attn_loss: 0.2043, pseudo_seg_mAcc: 0.9118
+2026-03-02 11:28:08,954 - dist_clip_voc.py - INFO: Iter: 11400; Elasped: 1:46:31; ETA: 2:53:47; LR: 1.240e-05;, pseudo_seg_loss: 0.4879, attn_loss: 0.2146, pseudo_seg_mAcc: 0.6732
+2026-03-02 11:29:38,009 - dist_clip_voc.py - INFO: Iter: 11600; Elasped: 1:48:00; ETA: 2:51:18; LR: 1.227e-05;, pseudo_seg_loss: 0.4531, attn_loss: 0.2097, pseudo_seg_mAcc: 0.9213
+2026-03-02 11:31:13,343 - dist_clip_voc.py - INFO: Iter: 11800; Elasped: 1:49:36; ETA: 2:49:02; LR: 1.213e-05;, pseudo_seg_loss: 0.4388, attn_loss: 0.2161, pseudo_seg_mAcc: 0.6339
+2026-03-02 11:32:46,696 - dist_clip_voc.py - INFO: Iter: 12000; Elasped: 1:51:09; ETA: 2:46:43; LR: 1.200e-05;, pseudo_seg_loss: 0.4563, attn_loss: 0.2139, pseudo_seg_mAcc: 0.7838
+2026-03-02 11:32:46,701 - dist_clip_voc.py - INFO: Validating...
+2026-03-02 11:37:00,173 - dist_clip_voc.py - INFO: cams score:
+2026-03-02 11:37:00,179 - dist_clip_voc.py - INFO: {'pAcc': 0.9258077940303175, 'mAcc': 0.9109050478065512, 'miou': 0.7686174159297198, 'iou': {0: 0.9093933138787413, 1: 0.8756683543557768, 2: 0.544096780801072, 3: 0.9098884528456598, 4: 0.7727164924818568, 5: 0.5680806710962557, 6: 0.8689579819956771, 7: 0.7593138371236678, 8: 0.9561547231277453, 9: 0.5076012177425092, 10: 0.9080785060266676, 11: 0.6664248065795011, 12: 0.9354143590552616, 13: 0.8790816516720449, 14: 0.8371129134924089, 15: 0.6704174289877529, 16: 0.5556929435940711, 17: 0.9345727218399646, 18: 0.7268350433056919, 19: 0.8554622083485041, 20: 0.5000013261732836}}
+2026-03-02 11:37:00,179 - dist_clip_voc.py - INFO: segs score:
+2026-03-02 11:37:00,179 - dist_clip_voc.py - INFO: {'pAcc': 0.9393593132194484, 'mAcc': 0.8839803202445025, 'miou': 0.7779698405005684, 'iou': {0: 0.928217612362927, 1: 0.8680038006280003, 2: 0.5498294161446786, 3: 0.9163495690453946, 4: 0.8215043912417997, 5: 0.7782765030929119, 6: 0.8594179331741219, 7: 0.7684218546197604, 8: 0.9511697809357381, 9: 0.46336298012215704, 10: 0.8678392197382572, 11: 0.7246038898032514, 12: 0.9208431227328507, 13: 0.8620553522782008, 14: 0.8619961727929386, 15: 0.8029350916953708, 16: 0.6352068755942972, 17: 0.9223596252705972, 18: 0.4687611312629694, 19: 0.848441043346261, 20: 0.5177712846294538}}
+2026-03-02 11:38:28,354 - dist_clip_voc.py - INFO: Iter: 12200; Elasped: 1:56:51; ETA: 2:50:29; LR: 1.187e-05;, pseudo_seg_loss: 0.4885, attn_loss: 0.2151, pseudo_seg_mAcc: 0.8495
+2026-03-02 11:40:01,671 - dist_clip_voc.py - INFO: Iter: 12400; Elasped: 1:58:24; ETA: 2:48:03; LR: 1.173e-05;, pseudo_seg_loss: 0.4892, attn_loss: 0.2113, pseudo_seg_mAcc: 0.9824
+2026-03-02 11:41:34,312 - dist_clip_voc.py - INFO: Iter: 12600; Elasped: 1:59:57; ETA: 2:45:38; LR: 1.160e-05;, pseudo_seg_loss: 0.4856, attn_loss: 0.2059, pseudo_seg_mAcc: 0.9098
+2026-03-02 11:43:01,874 - dist_clip_voc.py - INFO: Iter: 12800; Elasped: 2:01:24; ETA: 2:43:07; LR: 1.147e-05;, pseudo_seg_loss: 0.4967, attn_loss: 0.2179, pseudo_seg_mAcc: 0.8372
+2026-03-02 11:44:30,821 - dist_clip_voc.py - INFO: Iter: 13000; Elasped: 2:02:53; ETA: 2:40:41; LR: 1.133e-05;, pseudo_seg_loss: 0.5000, attn_loss: 0.2124, pseudo_seg_mAcc: 0.9695
+2026-03-02 11:45:59,178 - dist_clip_voc.py - INFO: Iter: 13200; Elasped: 2:04:22; ETA: 2:38:17; LR: 1.120e-05;, pseudo_seg_loss: 0.4784, attn_loss: 0.2177, pseudo_seg_mAcc: 0.9508
+2026-03-02 11:47:27,670 - dist_clip_voc.py - INFO: Iter: 13400; Elasped: 2:05:50; ETA: 2:35:52; LR: 1.107e-05;, pseudo_seg_loss: 0.5102, attn_loss: 0.2073, pseudo_seg_mAcc: 0.6866
+2026-03-02 11:48:50,734 - dist_clip_voc.py - INFO: Iter: 13600; Elasped: 2:07:13; ETA: 2:33:24; LR: 1.093e-05;, pseudo_seg_loss: 0.4824, attn_loss: 0.2053, pseudo_seg_mAcc: 0.8429
+2026-03-02 11:50:14,157 - dist_clip_voc.py - INFO: Iter: 13800; Elasped: 2:08:37; ETA: 2:30:59; LR: 1.080e-05;, pseudo_seg_loss: 0.4758, attn_loss: 0.2125, pseudo_seg_mAcc: 0.8513
+2026-03-02 11:51:38,851 - dist_clip_voc.py - INFO: Iter: 14000; Elasped: 2:10:01; ETA: 2:28:35; LR: 1.067e-05;, pseudo_seg_loss: 0.4373, attn_loss: 0.2005, pseudo_seg_mAcc: 0.8035
+2026-03-02 11:51:38,855 - dist_clip_voc.py - INFO: Validating...
+2026-03-02 11:55:25,673 - dist_clip_voc.py - INFO: cams score:
+2026-03-02 11:55:25,678 - dist_clip_voc.py - INFO: {'pAcc': 0.9179264383535872, 'mAcc': 0.9018273600127519, 'miou': 0.7437549228252222, 'iou': {0: 0.8991219963363734, 1: 0.8746126438731782, 2: 0.43223208578087585, 3: 0.9135572372255175, 4: 0.6293433849255028, 5: 0.5604686716812275, 6: 0.8786320935823866, 7: 0.7440086667611331, 8: 0.9572522459738123, 9: 0.4403062861299908, 10: 0.8943836606608502, 11: 0.6396376928249701, 12: 0.9322288337967894, 13: 0.8789036658483744, 14: 0.832385471740574, 15: 0.684448715457078, 16: 0.4150539871180585, 17: 0.9343726330317145, 18: 0.7132782360986673, 19: 0.8496739273990221, 20: 0.5149512430835685}}
+2026-03-02 11:55:25,678 - dist_clip_voc.py - INFO: segs score:
+2026-03-02 11:55:25,678 - dist_clip_voc.py - INFO: {'pAcc': 0.9390410772963271, 'mAcc': 0.905810300126803, 'miou': 0.7760192685735358, 'iou': {0: 0.9286541018285087, 1: 0.8661587588818336, 2: 0.5263158329410405, 3: 0.9176411637163624, 4: 0.6694870211717272, 5: 0.8177789686792902, 6: 0.8736656537589131, 7: 0.8565812864427785, 8: 0.952482292668714, 9: 0.3855399666613748, 10: 0.8828502990359033, 11: 0.6734252550688196, 12: 0.9165106493529994, 13: 0.8196673787569815, 14: 0.8469360402281414, 15: 0.8582769106549906, 16: 0.6005494669756396, 17: 0.9257811348799068, 18: 0.570433371328083, 19: 0.8584118140878387, 20: 0.5492572729244041}}
+2026-03-02 11:56:54,105 - dist_clip_voc.py - INFO: Iter: 14200; Elasped: 2:15:17; ETA: 2:30:31; LR: 1.053e-05;, pseudo_seg_loss: 0.4592, attn_loss: 0.2126, pseudo_seg_mAcc: 0.9326
+2026-03-02 11:58:19,699 - dist_clip_voc.py - INFO: Iter: 14400; Elasped: 2:16:42; ETA: 2:28:05; LR: 1.040e-05;, pseudo_seg_loss: 0.4622, attn_loss: 0.2057, pseudo_seg_mAcc: 0.6969
+2026-03-02 11:59:44,750 - dist_clip_voc.py - INFO: Iter: 14600; Elasped: 2:18:07; ETA: 2:25:41; LR: 1.027e-05;, pseudo_seg_loss: 0.4452, attn_loss: 0.2033, pseudo_seg_mAcc: 0.9001
+2026-03-02 12:01:12,806 - dist_clip_voc.py - INFO: Iter: 14800; Elasped: 2:19:35; ETA: 2:23:21; LR: 1.013e-05;, pseudo_seg_loss: 0.4857, attn_loss: 0.2118, pseudo_seg_mAcc: 0.9471
+2026-03-02 12:02:37,457 - dist_clip_voc.py - INFO: Iter: 15000; Elasped: 2:21:00; ETA: 2:21:00; LR: 1.000e-05;, pseudo_seg_loss: 0.4165, attn_loss: 0.2024, pseudo_seg_mAcc: 0.9670
+2026-03-02 12:04:02,986 - dist_clip_voc.py - INFO: Iter: 15200; Elasped: 2:22:25; ETA: 2:18:40; LR: 9.867e-06;, pseudo_seg_loss: 0.4513, attn_loss: 0.2070, pseudo_seg_mAcc: 0.8166
+2026-03-02 12:05:32,459 - dist_clip_voc.py - INFO: Iter: 15400; Elasped: 2:23:55; ETA: 2:16:26; LR: 9.734e-06;, pseudo_seg_loss: 0.4824, attn_loss: 0.2056, pseudo_seg_mAcc: 0.9278
+2026-03-02 12:07:03,089 - dist_clip_voc.py - INFO: Iter: 15600; Elasped: 2:25:26; ETA: 2:14:14; LR: 9.601e-06;, pseudo_seg_loss: 0.5212, attn_loss: 0.2060, pseudo_seg_mAcc: 0.9369
+2026-03-02 12:08:29,049 - dist_clip_voc.py - INFO: Iter: 15800; Elasped: 2:26:52; ETA: 2:11:59; LR: 9.467e-06;, pseudo_seg_loss: 0.4674, attn_loss: 0.2007, pseudo_seg_mAcc: 0.9571
+2026-03-02 12:09:51,481 - dist_clip_voc.py - INFO: Iter: 16000; Elasped: 2:28:14; ETA: 2:09:42; LR: 9.334e-06;, pseudo_seg_loss: 0.4796, attn_loss: 0.2017, pseudo_seg_mAcc: 0.7470
+2026-03-02 12:09:51,484 - dist_clip_voc.py - INFO: Validating...
+2026-03-02 12:13:30,365 - dist_clip_voc.py - INFO: cams score:
+2026-03-02 12:13:30,382 - dist_clip_voc.py - INFO: {'pAcc': 0.9226301944539453, 'mAcc': 0.9070148483260235, 'miou': 0.753696418415922, 'iou': {0: 0.9050444741655567, 1: 0.8713195596440959, 2: 0.48596831183233347, 3: 0.9099790153152454, 4: 0.6678853863277768, 5: 0.4575001722433001, 6: 0.875781663793748, 7: 0.7262175735859586, 8: 0.957330476313849, 9: 0.49136294284713394, 10: 0.8883179430691358, 11: 0.6844569193007267, 12: 0.935286169600662, 13: 0.8629829075864568, 14: 0.8318559291685704, 15: 0.683003907791438, 16: 0.48811140820676285, 17: 0.9295246366972573, 18: 0.7406212139555312, 19: 0.8539721884165713, 20: 0.581101986872251}}
+2026-03-02 12:13:30,382 - dist_clip_voc.py - INFO: segs score:
+2026-03-02 12:13:30,382 - dist_clip_voc.py - INFO: {'pAcc': 0.9455187619951564, 'mAcc': 0.9098196636338022, 'miou': 0.7898843983647494, 'iou': {0: 0.9366865613968761, 1: 0.8795483163234687, 2: 0.549784311485403, 3: 0.917353687320996, 4: 0.8103031656517513, 5: 0.7376446813393336, 6: 0.8703784603393558, 7: 0.8362617628402048, 8: 0.9542609628298971, 9: 0.4480204935100002, 10: 0.8457221651105055, 11: 0.7381586930030355, 12: 0.9322480334154665, 13: 0.851901422519716, 14: 0.8510345498605905, 15: 0.8569945564633846, 16: 0.5913539137191517, 17: 0.9074152834762743, 18: 0.6070351216978213, 19: 0.8440972001216416, 20: 0.6213690232348636}}
+2026-03-02 12:15:00,633 - dist_clip_voc.py - INFO: Iter: 16200; Elasped: 2:33:23; ETA: 2:10:39; LR: 9.201e-06;, pseudo_seg_loss: 0.5091, attn_loss: 0.2058, pseudo_seg_mAcc: 0.9099
+2026-03-02 12:16:35,654 - dist_clip_voc.py - INFO: Iter: 16400; Elasped: 2:34:58; ETA: 2:08:30; LR: 9.067e-06;, pseudo_seg_loss: 0.3977, attn_loss: 0.2064, pseudo_seg_mAcc: 0.9651
+2026-03-02 12:18:06,977 - dist_clip_voc.py - INFO: Iter: 16600; Elasped: 2:36:29; ETA: 2:06:19; LR: 8.934e-06;, pseudo_seg_loss: 0.4297, attn_loss: 0.2016, pseudo_seg_mAcc: 0.7711
+2026-03-02 12:19:44,035 - dist_clip_voc.py - INFO: Iter: 16800; Elasped: 2:38:07; ETA: 2:04:14; LR: 8.801e-06;, pseudo_seg_loss: 0.4673, attn_loss: 0.1998, pseudo_seg_mAcc: 0.9029
+2026-03-02 12:21:14,659 - dist_clip_voc.py - INFO: Iter: 17000; Elasped: 2:39:37; ETA: 2:02:03; LR: 8.667e-06;, pseudo_seg_loss: 0.4681, attn_loss: 0.1982, pseudo_seg_mAcc: 0.7731
+2026-03-02 12:22:47,011 - dist_clip_voc.py - INFO: Iter: 17200; Elasped: 2:41:10; ETA: 1:59:56; LR: 8.534e-06;, pseudo_seg_loss: 0.5386, attn_loss: 0.2026, pseudo_seg_mAcc: 0.8984
+2026-03-02 12:24:19,458 - dist_clip_voc.py - INFO: Iter: 17400; Elasped: 2:42:42; ETA: 1:57:49; LR: 8.401e-06;, pseudo_seg_loss: 0.4119, attn_loss: 0.1957, pseudo_seg_mAcc: 0.9444
+2026-03-02 12:25:58,857 - dist_clip_voc.py - INFO: Iter: 17600; Elasped: 2:44:21; ETA: 1:55:47; LR: 8.267e-06;, pseudo_seg_loss: 0.4660, attn_loss: 0.2092, pseudo_seg_mAcc: 0.9316
+2026-03-02 12:27:32,041 - dist_clip_voc.py - INFO: Iter: 17800; Elasped: 2:45:55; ETA: 1:53:43; LR: 8.134e-06;, pseudo_seg_loss: 0.4395, attn_loss: 0.2047, pseudo_seg_mAcc: 0.7188
+2026-03-02 12:29:09,492 - dist_clip_voc.py - INFO: Iter: 18000; Elasped: 2:47:32; ETA: 1:51:41; LR: 8.001e-06;, pseudo_seg_loss: 0.4163, attn_loss: 0.1974, pseudo_seg_mAcc: 0.9842
+2026-03-02 12:29:09,505 - dist_clip_voc.py - INFO: Validating...
+2026-03-02 12:34:08,676 - dist_clip_voc.py - INFO: cams score:
+2026-03-02 12:34:08,688 - dist_clip_voc.py - INFO: {'pAcc': 0.9186224361117696, 'mAcc': 0.9112116914646264, 'miou': 0.7564717519048263, 'iou': {0: 0.9003448716440465, 1: 0.8733132986091537, 2: 0.47543322058662163, 3: 0.9095697309063281, 4: 0.7568569012966424, 5: 0.5772751745670691, 6: 0.8665754282477995, 7: 0.6877911307186177, 8: 0.9593154145628658, 9: 0.42918505867176165, 10: 0.8926074631557273, 11: 0.6846474203762339, 12: 0.9321902602217585, 13: 0.8764591499134073, 14: 0.8302701709812963, 15: 0.6584175012613863, 16: 0.5588760338992083, 17: 0.9337015619238322, 18: 0.7144759910345966, 19: 0.8555643166244541, 20: 0.513036690798543}}
+2026-03-02 12:34:08,688 - dist_clip_voc.py - INFO: segs score:
+2026-03-02 12:34:08,688 - dist_clip_voc.py - INFO: {'pAcc': 0.9409465996711461, 'mAcc': 0.9023966990243314, 'miou': 0.7841227309746415, 'iou': {0: 0.9316039194535035, 1: 0.8782817895626214, 2: 0.5417241684058818, 3: 0.9153416845262496, 4: 0.8183418155323761, 5: 0.7716984891071409, 6: 0.8565916906191988, 7: 0.8073926198615794, 8: 0.9535720007935916, 9: 0.3879501955609321, 10: 0.8554314088016638, 11: 0.7104626638516369, 12: 0.9328219002280939, 13: 0.8563465411183054, 14: 0.8431664914652917, 15: 0.846105008486767, 16: 0.6579054102596048, 17: 0.9202900755131557, 18: 0.5753422303729229, 19: 0.8534664301645238, 20: 0.5527408167824287}}
+2026-03-02 12:36:17,098 - dist_clip_voc.py - INFO: Iter: 18200; Elasped: 2:54:40; ETA: 1:53:14; LR: 7.867e-06;, pseudo_seg_loss: 0.1530, attn_loss: 0.2008, pseudo_seg_mAcc: 0.9860
+2026-03-02 12:38:24,212 - dist_clip_voc.py - INFO: Iter: 18400; Elasped: 2:56:47; ETA: 1:51:27; LR: 7.734e-06;, pseudo_seg_loss: 0.1162, attn_loss: 0.2031, pseudo_seg_mAcc: 0.9456
+2026-03-02 12:40:17,515 - dist_clip_voc.py - INFO: Iter: 18600; Elasped: 2:58:40; ETA: 1:49:30; LR: 7.601e-06;, pseudo_seg_loss: 0.0960, attn_loss: 0.1955, pseudo_seg_mAcc: 0.9783
+2026-03-02 12:42:12,482 - dist_clip_voc.py - INFO: Iter: 18800; Elasped: 3:00:35; ETA: 1:47:34; LR: 7.467e-06;, pseudo_seg_loss: 0.0846, attn_loss: 0.1896, pseudo_seg_mAcc: 0.9887
+2026-03-02 12:44:01,850 - dist_clip_voc.py - INFO: Iter: 19000; Elasped: 3:02:24; ETA: 1:45:36; LR: 7.334e-06;, pseudo_seg_loss: 0.0927, attn_loss: 0.2011, pseudo_seg_mAcc: 0.9842
+2026-03-02 12:45:52,295 - dist_clip_voc.py - INFO: Iter: 19200; Elasped: 3:04:15; ETA: 1:43:38; LR: 7.201e-06;, pseudo_seg_loss: 0.1069, attn_loss: 0.1938, pseudo_seg_mAcc: 0.9735
+2026-03-02 12:47:40,271 - dist_clip_voc.py - INFO: Iter: 19400; Elasped: 3:06:03; ETA: 1:41:39; LR: 7.067e-06;, pseudo_seg_loss: 0.0894, attn_loss: 0.1927, pseudo_seg_mAcc: 0.9952
+2026-03-02 12:49:16,718 - dist_clip_voc.py - INFO: Iter: 19600; Elasped: 3:07:39; ETA: 1:39:34; LR: 6.934e-06;, pseudo_seg_loss: 0.0918, attn_loss: 0.1909, pseudo_seg_mAcc: 0.9469
+2026-03-02 12:50:53,233 - dist_clip_voc.py - INFO: Iter: 19800; Elasped: 3:09:16; ETA: 1:37:30; LR: 6.801e-06;, pseudo_seg_loss: 0.0976, attn_loss: 0.1935, pseudo_seg_mAcc: 0.9889
+2026-03-02 12:52:48,857 - dist_clip_voc.py - INFO: Iter: 20000; Elasped: 3:11:11; ETA: 1:35:35; LR: 6.667e-06;, pseudo_seg_loss: 0.0844, attn_loss: 0.1866, pseudo_seg_mAcc: 0.9741
+2026-03-02 12:52:48,956 - dist_clip_voc.py - INFO: Validating...
+2026-03-02 12:57:29,544 - dist_clip_voc.py - INFO: cams score:
+2026-03-02 12:57:29,565 - dist_clip_voc.py - INFO: {'pAcc': 0.9427385875527183, 'mAcc': 0.9061213448745236, 'miou': 0.7889997341542758, 'iou': {0: 0.9308970000444774, 1: 0.8801569126938036, 2: 0.525583451404516, 3: 0.9110306100179428, 4: 0.7237862530542867, 5: 0.6063933660627816, 6: 0.8772407529149777, 7: 0.8115599086859528, 8: 0.9584364758276906, 9: 0.5552234804012014, 10: 0.8917111425666685, 11: 0.7135059423058292, 12: 0.939484698004462, 13: 0.8763697828588674, 14: 0.8322909785217003, 15: 0.7820265426143421, 16: 0.618719250923169, 17: 0.9346502595431988, 18: 0.7500561331402501, 19: 0.8325775874153252, 20: 0.6172938882383484}}
+2026-03-02 12:57:29,565 - dist_clip_voc.py - INFO: segs score:
+2026-03-02 12:57:29,565 - dist_clip_voc.py - INFO: {'pAcc': 0.9479869029774708, 'mAcc': 0.9203745494855308, 'miou': 0.8002487307562819, 'iou': {0: 0.9392614369313749, 1: 0.8725259967882191, 2: 0.5511884400700087, 3: 0.9197465550709636, 4: 0.8469912204586888, 5: 0.7970449692371925, 6: 0.8738216773748964, 7: 0.8672113027770812, 8: 0.9526763208867761, 9: 0.4837125890531691, 10: 0.8680563483079874, 11: 0.7276482920676945, 12: 0.9341352905037739, 13: 0.8404918557668025, 14: 0.8074279273874506, 15: 0.8660058065913617, 16: 0.6845953215006584, 17: 0.9180828115294868, 18: 0.5949361675263872, 19: 0.8537114511393626, 20: 0.6059515649125817}}
+2026-03-02 12:59:14,288 - dist_clip_voc.py - INFO: Iter: 20200; Elasped: 3:17:37; ETA: 1:35:52; LR: 6.534e-06;, pseudo_seg_loss: 0.0819, attn_loss: 0.1889, pseudo_seg_mAcc: 0.9420
+2026-03-02 13:00:56,821 - dist_clip_voc.py - INFO: Iter: 20400; Elasped: 3:19:19; ETA: 1:33:47; LR: 6.401e-06;, pseudo_seg_loss: 0.0963, attn_loss: 0.1977, pseudo_seg_mAcc: 0.9830
+2026-03-02 13:02:43,581 - dist_clip_voc.py - INFO: Iter: 20600; Elasped: 3:21:06; ETA: 1:31:45; LR: 6.267e-06;, pseudo_seg_loss: 0.1023, attn_loss: 0.1914, pseudo_seg_mAcc: 0.9477
+2026-03-02 13:04:18,698 - dist_clip_voc.py - INFO: Iter: 20800; Elasped: 3:22:41; ETA: 1:29:38; LR: 6.134e-06;, pseudo_seg_loss: 0.0872, attn_loss: 0.1881, pseudo_seg_mAcc: 0.9595
+2026-03-02 13:05:56,627 - dist_clip_voc.py - INFO: Iter: 21000; Elasped: 3:24:19; ETA: 1:27:33; LR: 6.001e-06;, pseudo_seg_loss: 0.0991, attn_loss: 0.1914, pseudo_seg_mAcc: 0.9578
+2026-03-02 13:07:41,417 - dist_clip_voc.py - INFO: Iter: 21200; Elasped: 3:26:04; ETA: 1:25:32; LR: 5.867e-06;, pseudo_seg_loss: 0.0961, attn_loss: 0.1930, pseudo_seg_mAcc: 0.9714
+2026-03-02 13:09:17,845 - dist_clip_voc.py - INFO: Iter: 21400; Elasped: 3:27:40; ETA: 1:23:27; LR: 5.734e-06;, pseudo_seg_loss: 0.0871, attn_loss: 0.1852, pseudo_seg_mAcc: 0.9888
+2026-03-02 13:10:43,536 - dist_clip_voc.py - INFO: Iter: 21600; Elasped: 3:29:06; ETA: 1:21:19; LR: 5.601e-06;, pseudo_seg_loss: 0.0858, attn_loss: 0.1891, pseudo_seg_mAcc: 0.9787
+2026-03-02 13:12:13,766 - dist_clip_voc.py - INFO: Iter: 21800; Elasped: 3:30:36; ETA: 1:19:12; LR: 5.467e-06;, pseudo_seg_loss: 0.0870, attn_loss: 0.1865, pseudo_seg_mAcc: 0.9878
+2026-03-02 13:13:46,870 - dist_clip_voc.py - INFO: Iter: 22000; Elasped: 3:32:09; ETA: 1:17:08; LR: 5.334e-06;, pseudo_seg_loss: 0.0960, attn_loss: 0.1851, pseudo_seg_mAcc: 0.9935
+2026-03-02 13:13:46,919 - dist_clip_voc.py - INFO: Validating...
+2026-03-02 13:18:18,927 - dist_clip_voc.py - INFO: cams score:
+2026-03-02 13:18:18,989 - dist_clip_voc.py - INFO: {'pAcc': 0.9447873469238983, 'mAcc': 0.9080632395242014, 'miou': 0.7919391405815333, 'iou': {0: 0.9334488471818689, 1: 0.882396970376921, 2: 0.5351872620124694, 3: 0.9121079491318214, 4: 0.7713307481431149, 5: 0.5932509747872309, 6: 0.8739249446739045, 7: 0.8164813876271179, 8: 0.9557009721401504, 9: 0.5783334901753245, 10: 0.8932843710009458, 11: 0.721357886692656, 12: 0.9387634404994374, 13: 0.8839598597954991, 14: 0.8299251942662412, 15: 0.8074523589628466, 16: 0.5550422025558949, 17: 0.9364774673037849, 18: 0.7576260249359272, 19: 0.8382252849383708, 20: 0.6164443150106721}}
+2026-03-02 13:18:18,989 - dist_clip_voc.py - INFO: segs score:
+2026-03-02 13:18:18,989 - dist_clip_voc.py - INFO: {'pAcc': 0.9465300415469102, 'mAcc': 0.9249011943329347, 'miou': 0.8022423277509432, 'iou': {0: 0.937259267937004, 1: 0.8794147419933799, 2: 0.5702428537699703, 3: 0.9158657740435302, 4: 0.8308676056567756, 5: 0.7973939350520192, 6: 0.8674972795513541, 7: 0.8503130719270198, 8: 0.9480822111466738, 9: 0.4803220528090088, 10: 0.8797274403827954, 11: 0.7503496892072449, 12: 0.9327784683258564, 13: 0.8707236724863926, 14: 0.8591561386294891, 15: 0.8324232566741, 16: 0.6835938523120664, 17: 0.9212818177217752, 18: 0.5915656819842195, 19: 0.8569387891732461, 20: 0.5912912819858854}}
+2026-03-02 13:20:25,657 - dist_clip_voc.py - INFO: Iter: 22200; Elasped: 3:38:48; ETA: 1:16:52; LR: 5.201e-06;, pseudo_seg_loss: 0.1009, attn_loss: 0.1928, pseudo_seg_mAcc: 0.9636
+2026-03-02 13:22:13,126 - dist_clip_voc.py - INFO: Iter: 22400; Elasped: 3:40:36; ETA: 1:14:50; LR: 5.067e-06;, pseudo_seg_loss: 0.0773, attn_loss: 0.1948, pseudo_seg_mAcc: 0.9831
+2026-03-02 13:24:04,117 - dist_clip_voc.py - INFO: Iter: 22600; Elasped: 3:42:27; ETA: 1:12:50; LR: 4.934e-06;, pseudo_seg_loss: 0.0850, attn_loss: 0.1900, pseudo_seg_mAcc: 0.9258
+2026-03-02 13:25:56,178 - dist_clip_voc.py - INFO: Iter: 22800; Elasped: 3:44:19; ETA: 1:10:50; LR: 4.801e-06;, pseudo_seg_loss: 0.0846, attn_loss: 0.1853, pseudo_seg_mAcc: 0.9896
+2026-03-02 13:27:47,257 - dist_clip_voc.py - INFO: Iter: 23000; Elasped: 3:46:10; ETA: 1:08:50; LR: 4.667e-06;, pseudo_seg_loss: 0.0936, attn_loss: 0.1800, pseudo_seg_mAcc: 0.9804
+2026-03-02 13:29:39,757 - dist_clip_voc.py - INFO: Iter: 23200; Elasped: 3:48:02; ETA: 1:06:50; LR: 4.534e-06;, pseudo_seg_loss: 0.0826, attn_loss: 0.1875, pseudo_seg_mAcc: 0.9773
+2026-03-02 13:31:13,808 - dist_clip_voc.py - INFO: Iter: 23400; Elasped: 3:49:36; ETA: 1:04:45; LR: 4.401e-06;, pseudo_seg_loss: 0.0897, attn_loss: 0.1863, pseudo_seg_mAcc: 0.9814
+2026-03-02 13:33:00,760 - dist_clip_voc.py - INFO: Iter: 23600; Elasped: 3:51:23; ETA: 1:02:44; LR: 4.267e-06;, pseudo_seg_loss: 0.0974, attn_loss: 0.1924, pseudo_seg_mAcc: 0.9770
+2026-03-02 13:34:31,157 - dist_clip_voc.py - INFO: Iter: 23800; Elasped: 3:52:54; ETA: 1:00:40; LR: 4.134e-06;, pseudo_seg_loss: 0.0843, attn_loss: 0.1780, pseudo_seg_mAcc: 0.9879
+2026-03-02 13:36:08,756 - dist_clip_voc.py - INFO: Iter: 24000; Elasped: 3:54:31; ETA: 0:58:37; LR: 4.001e-06;, pseudo_seg_loss: 0.0923, attn_loss: 0.1920, pseudo_seg_mAcc: 0.9684
+2026-03-02 13:36:08,759 - dist_clip_voc.py - INFO: Validating...
+2026-03-02 13:39:56,690 - dist_clip_voc.py - INFO: cams score:
+2026-03-02 13:39:56,696 - dist_clip_voc.py - INFO: {'pAcc': 0.9437747414395089, 'mAcc': 0.9021250091865486, 'miou': 0.7902301526429311, 'iou': {0: 0.9323808576549895, 1: 0.881724764797311, 2: 0.5194475513154185, 3: 0.9127509426514915, 4: 0.732564224922849, 5: 0.5861920356007134, 6: 0.8743842604475596, 7: 0.8156050715659963, 8: 0.9542228086677688, 9: 0.573425704911751, 10: 0.9000274815664303, 11: 0.6745601985012795, 12: 0.9391448534910507, 13: 0.879957937136686, 14: 0.8363554881627494, 15: 0.7776184747256001, 16: 0.5974864571467581, 17: 0.9351942818687401, 18: 0.7557493288976708, 19: 0.850341109327813, 20: 0.665699372140925}}
+2026-03-02 13:39:56,696 - dist_clip_voc.py - INFO: segs score:
+2026-03-02 13:39:56,696 - dist_clip_voc.py - INFO: {'pAcc': 0.9495174121070691, 'mAcc': 0.9211469205094183, 'miou': 0.799394939173594, 'iou': {0: 0.9410778544975227, 1: 0.8678873349492321, 2: 0.5580367744481949, 3: 0.8922518372693216, 4: 0.8256067081010954, 5: 0.7793783229945334, 6: 0.8659570548859036, 7: 0.7952753572806515, 8: 0.9514614142865548, 9: 0.4969247163074162, 10: 0.8443476024357818, 11: 0.7274512691024954, 12: 0.9325138183574225, 13: 0.823642095186748, 14: 0.8616260303837833, 15: 0.8677012215258381, 16: 0.6887268593834538, 17: 0.9194734408734417, 18: 0.6356814528060839, 19: 0.8528056076315139, 20: 0.6594669499384822}}
+2026-03-02 13:41:23,044 - dist_clip_voc.py - INFO: Iter: 24200; Elasped: 3:59:46; ETA: 0:57:27; LR: 3.867e-06;, pseudo_seg_loss: 0.0808, attn_loss: 0.1807, pseudo_seg_mAcc: 0.9778
+2026-03-02 13:42:47,995 - dist_clip_voc.py - INFO: Iter: 24400; Elasped: 4:01:10; ETA: 0:55:20; LR: 3.734e-06;, pseudo_seg_loss: 0.0915, attn_loss: 0.1865, pseudo_seg_mAcc: 0.9662
+2026-03-02 13:44:11,012 - dist_clip_voc.py - INFO: Iter: 24600; Elasped: 4:02:34; ETA: 0:53:14; LR: 3.601e-06;, pseudo_seg_loss: 0.0805, attn_loss: 0.1858, pseudo_seg_mAcc: 0.9664
+2026-03-02 13:45:34,364 - dist_clip_voc.py - INFO: Iter: 24800; Elasped: 4:03:57; ETA: 0:51:09; LR: 3.467e-06;, pseudo_seg_loss: 0.0790, attn_loss: 0.1899, pseudo_seg_mAcc: 0.9812
+2026-03-02 13:46:59,046 - dist_clip_voc.py - INFO: Iter: 25000; Elasped: 4:05:22; ETA: 0:49:04; LR: 3.334e-06;, pseudo_seg_loss: 0.0867, attn_loss: 0.1873, pseudo_seg_mAcc: 0.9732
+2026-03-02 13:48:23,513 - dist_clip_voc.py - INFO: Iter: 25200; Elasped: 4:06:46; ETA: 0:47:00; LR: 3.201e-06;, pseudo_seg_loss: 0.0817, attn_loss: 0.1810, pseudo_seg_mAcc: 0.9720
+2026-03-02 13:49:51,497 - dist_clip_voc.py - INFO: Iter: 25400; Elasped: 4:08:14; ETA: 0:44:57; LR: 3.067e-06;, pseudo_seg_loss: 0.0935, attn_loss: 0.1867, pseudo_seg_mAcc: 0.9905
+2026-03-02 13:51:28,297 - dist_clip_voc.py - INFO: Iter: 25600; Elasped: 4:09:51; ETA: 0:42:56; LR: 2.934e-06;, pseudo_seg_loss: 0.0870, attn_loss: 0.1831, pseudo_seg_mAcc: 0.9736
+2026-03-02 13:52:55,950 - dist_clip_voc.py - INFO: Iter: 25800; Elasped: 4:11:18; ETA: 0:40:54; LR: 2.801e-06;, pseudo_seg_loss: 0.0840, attn_loss: 0.1841, pseudo_seg_mAcc: 0.9862
+2026-03-02 13:54:25,890 - dist_clip_voc.py - INFO: Iter: 26000; Elasped: 4:12:48; ETA: 0:38:53; LR: 2.667e-06;, pseudo_seg_loss: 0.0855, attn_loss: 0.1830, pseudo_seg_mAcc: 0.9919
+2026-03-02 13:54:25,914 - dist_clip_voc.py - INFO: Validating...
+2026-03-02 13:58:17,320 - dist_clip_voc.py - INFO: cams score:
+2026-03-02 13:58:17,324 - dist_clip_voc.py - INFO: {'pAcc': 0.9471058348467638, 'mAcc': 0.900365416849404, 'miou': 0.797633116888629, 'iou': {0: 0.9362794757916596, 1: 0.8776769813429429, 2: 0.5171399261248023, 3: 0.9075868803367799, 4: 0.7575223378131789, 5: 0.6114163174480951, 6: 0.868516765915326, 7: 0.8244764056495947, 8: 0.9531385747087833, 9: 0.5889084783625037, 10: 0.89454363360453, 11: 0.6956512390560271, 12: 0.9355013875259263, 13: 0.8834699537246925, 14: 0.8351677859085935, 15: 0.8003504479421187, 16: 0.6302494073807613, 17: 0.9354470226632675, 18: 0.770577139038674, 19: 0.8476181962942033, 20: 0.6790570980287484}}
+2026-03-02 13:58:17,324 - dist_clip_voc.py - INFO: segs score:
+2026-03-02 13:58:17,324 - dist_clip_voc.py - INFO: {'pAcc': 0.9520708037065306, 'mAcc': 0.913652659801931, 'miou': 0.8091336683205202, 'iou': {0: 0.9444865570451484, 1: 0.8822121023763143, 2: 0.5464370009907338, 3: 0.9111495778489023, 4: 0.8340930285670783, 5: 0.811042015990585, 6: 0.8681716590318974, 7: 0.8668901006876406, 8: 0.9513891005231984, 9: 0.4996315680821868, 10: 0.8692245087886988, 11: 0.7271449424084845, 12: 0.9388264560902163, 13: 0.8716382892543509, 14: 0.8452581742009702, 15: 0.8704238847827092, 16: 0.6935794089308519, 17: 0.9202810689220273, 18: 0.6162655888353449, 19: 0.8527809032648842, 20: 0.6708810981087}}
+2026-03-02 13:59:43,456 - dist_clip_voc.py - INFO: Iter: 26200; Elasped: 4:18:06; ETA: 0:37:26; LR: 2.534e-06;, pseudo_seg_loss: 0.0745, attn_loss: 0.1783, pseudo_seg_mAcc: 0.9817
+2026-03-02 14:01:10,719 - dist_clip_voc.py - INFO: Iter: 26400; Elasped: 4:19:33; ETA: 0:35:23; LR: 2.401e-06;, pseudo_seg_loss: 0.0891, attn_loss: 0.1863, pseudo_seg_mAcc: 0.9838
+2026-03-02 14:02:39,500 - dist_clip_voc.py - INFO: Iter: 26600; Elasped: 4:21:02; ETA: 0:33:21; LR: 2.267e-06;, pseudo_seg_loss: 0.0762, attn_loss: 0.1779, pseudo_seg_mAcc: 0.9816
+2026-03-02 14:04:06,301 - dist_clip_voc.py - INFO: Iter: 26800; Elasped: 4:22:29; ETA: 0:31:20; LR: 2.134e-06;, pseudo_seg_loss: 0.0842, attn_loss: 0.1797, pseudo_seg_mAcc: 0.9713
+2026-03-02 14:05:36,944 - dist_clip_voc.py - INFO: Iter: 27000; Elasped: 4:23:59; ETA: 0:29:19; LR: 2.001e-06;, pseudo_seg_loss: 0.0774, attn_loss: 0.1842, pseudo_seg_mAcc: 0.9821
+2026-03-02 14:07:07,112 - dist_clip_voc.py - INFO: Iter: 27200; Elasped: 4:25:30; ETA: 0:27:19; LR: 1.867e-06;, pseudo_seg_loss: 0.0820, attn_loss: 0.1823, pseudo_seg_mAcc: 0.9788
+2026-03-02 14:08:37,791 - dist_clip_voc.py - INFO: Iter: 27400; Elasped: 4:27:00; ETA: 0:25:20; LR: 1.734e-06;, pseudo_seg_loss: 0.0689, attn_loss: 0.1809, pseudo_seg_mAcc: 0.9934
+2026-03-02 14:10:07,417 - dist_clip_voc.py - INFO: Iter: 27600; Elasped: 4:28:30; ETA: 0:23:20; LR: 1.601e-06;, pseudo_seg_loss: 0.0850, attn_loss: 0.1777, pseudo_seg_mAcc: 0.9887
+2026-03-02 14:11:41,024 - dist_clip_voc.py - INFO: Iter: 27800; Elasped: 4:30:04; ETA: 0:21:22; LR: 1.467e-06;, pseudo_seg_loss: 0.0832, attn_loss: 0.1834, pseudo_seg_mAcc: 0.9901
+2026-03-02 14:13:13,700 - dist_clip_voc.py - INFO: Iter: 28000; Elasped: 4:31:36; ETA: 0:19:24; LR: 1.334e-06;, pseudo_seg_loss: 0.0829, attn_loss: 0.1847, pseudo_seg_mAcc: 0.9942
+2026-03-02 14:13:13,704 - dist_clip_voc.py - INFO: Validating...
+2026-03-02 14:17:05,383 - dist_clip_voc.py - INFO: cams score:
+2026-03-02 14:17:05,388 - dist_clip_voc.py - INFO: {'pAcc': 0.9457408496663381, 'mAcc': 0.90234853585316, 'miou': 0.7957831246065892, 'iou': {0: 0.9343844930359676, 1: 0.8789054605049254, 2: 0.5213235967496685, 3: 0.9086460577879719, 4: 0.718664249411006, 5: 0.6332263803857714, 6: 0.8711110471010909, 7: 0.819559025484479, 8: 0.9534617836898326, 9: 0.5774460694296429, 10: 0.890995666873006, 11: 0.691122216670907, 12: 0.9374454951487876, 13: 0.8810886449340791, 14: 0.8380326826365105, 15: 0.7887242757193378, 16: 0.6273115792323947, 17: 0.9351563741784784, 18: 0.7713242114244349, 19: 0.848858231606644, 20: 0.6846580747334362}}
+2026-03-02 14:17:05,388 - dist_clip_voc.py - INFO: segs score:
+2026-03-02 14:17:05,388 - dist_clip_voc.py - INFO: {'pAcc': 0.9508667279072903, 'mAcc': 0.9260906728263087, 'miou': 0.8101439340980889, 'iou': {0: 0.9427625783903683, 1: 0.8763411721996716, 2: 0.5616866881227159, 3: 0.9109181831161908, 4: 0.8439979230240575, 5: 0.7933423081091519, 6: 0.8689532357430977, 7: 0.8463003337923546, 8: 0.9484308706191085, 9: 0.4894497620749573, 10: 0.8781875171593301, 11: 0.76162736459693, 12: 0.9300833516480999, 13: 0.8742602525600971, 14: 0.8641194901137959, 15: 0.8651163606268155, 16: 0.703707628032836, 17: 0.9172596920252752, 18: 0.6069997687472064, 19: 0.8570944908313562, 20: 0.6723836445264518}}
+2026-03-02 14:18:50,777 - dist_clip_voc.py - INFO: Iter: 28200; Elasped: 4:37:13; ETA: 0:17:41; LR: 1.201e-06;, pseudo_seg_loss: 0.0767, attn_loss: 0.1806, pseudo_seg_mAcc: 0.9702
+2026-03-02 14:20:36,712 - dist_clip_voc.py - INFO: Iter: 28400; Elasped: 4:38:59; ETA: 0:15:43; LR: 1.067e-06;, pseudo_seg_loss: 0.0805, attn_loss: 0.1830, pseudo_seg_mAcc: 0.9826
+2026-03-02 14:22:15,256 - dist_clip_voc.py - INFO: Iter: 28600; Elasped: 4:40:38; ETA: 0:13:44; LR: 9.340e-07;, pseudo_seg_loss: 0.0746, attn_loss: 0.1738, pseudo_seg_mAcc: 0.9807
+2026-03-02 14:23:55,332 - dist_clip_voc.py - INFO: Iter: 28800; Elasped: 4:42:18; ETA: 0:11:45; LR: 8.007e-07;, pseudo_seg_loss: 0.0905, attn_loss: 0.1834, pseudo_seg_mAcc: 0.8880
+2026-03-02 14:25:34,791 - dist_clip_voc.py - INFO: Iter: 29000; Elasped: 4:43:57; ETA: 0:09:47; LR: 6.673e-07;, pseudo_seg_loss: 0.0758, attn_loss: 0.1763, pseudo_seg_mAcc: 0.9456
+2026-03-02 14:27:15,908 - dist_clip_voc.py - INFO: Iter: 29200; Elasped: 4:45:38; ETA: 0:07:49; LR: 5.340e-07;, pseudo_seg_loss: 0.0797, attn_loss: 0.1810, pseudo_seg_mAcc: 0.9791
+2026-03-02 14:28:55,157 - dist_clip_voc.py - INFO: Iter: 29400; Elasped: 4:47:18; ETA: 0:05:51; LR: 4.007e-07;, pseudo_seg_loss: 0.0851, attn_loss: 0.1772, pseudo_seg_mAcc: 0.9922
+2026-03-02 14:30:31,248 - dist_clip_voc.py - INFO: Iter: 29600; Elasped: 4:48:54; ETA: 0:03:54; LR: 2.673e-07;, pseudo_seg_loss: 0.0897, attn_loss: 0.1821, pseudo_seg_mAcc: 0.9938
+2026-03-02 14:32:07,010 - dist_clip_voc.py - INFO: Iter: 29800; Elasped: 4:50:30; ETA: 0:01:56; LR: 1.340e-07;, pseudo_seg_loss: 0.0862, attn_loss: 0.1817, pseudo_seg_mAcc: 0.9877
+2026-03-02 14:33:43,319 - dist_clip_voc.py - INFO: Iter: 30000; Elasped: 4:52:06; ETA: 0:00:00; LR: 6.667e-10;, pseudo_seg_loss: 0.0796, attn_loss: 0.1795, pseudo_seg_mAcc: 0.9784
+2026-03-02 14:33:43,326 - dist_clip_voc.py - INFO: Validating...
+2026-03-02 14:38:02,927 - dist_clip_voc.py - INFO: cams score:
+2026-03-02 14:38:02,935 - dist_clip_voc.py - INFO: {'pAcc': 0.9444956054723472, 'mAcc': 0.9007129378644287, 'miou': 0.7916865748670697, 'iou': {0: 0.9331787631891485, 1: 0.8775662772154246, 2: 0.5155859529133237, 3: 0.9105975557457684, 4: 0.7161565004357806, 5: 0.6345554336096928, 6: 0.8707543366655024, 7: 0.8132963648801366, 8: 0.9529133941536783, 9: 0.5517622426427824, 10: 0.8919947419056782, 11: 0.7028183581980837, 12: 0.9369439543968808, 13: 0.8762070684155391, 14: 0.8369235663434401, 15: 0.7910238911755954, 16: 0.6140343207006388, 17: 0.9351357890802723, 18: 0.7346841285695674, 19: 0.8466001232921142, 20: 0.682685308679415}}
+2026-03-02 14:38:02,935 - dist_clip_voc.py - INFO: segs score:
+2026-03-02 14:38:02,935 - dist_clip_voc.py - INFO: {'pAcc': 0.9528446002598441, 'mAcc': 0.9243731848132926, 'miou': 0.8131614384283371, 'iou': {0: 0.9450026378034526, 1: 0.8807323217473977, 2: 0.5591943395689651, 3: 0.9103589876336937, 4: 0.8382046849911992, 5: 0.8056175036349841, 6: 0.8716019442073463, 7: 0.8599855305071883, 8: 0.9517913273589554, 9: 0.4989831661942865, 10: 0.8755433973737962, 11: 0.7647427096576168, 12: 0.935672947173333, 13: 0.8632647398520458, 14: 0.8638143218461125, 15: 0.8713893274426344, 16: 0.6944362734300876, 17: 0.9190909315862604, 18: 0.6370714786445523, 19: 0.8588880729308463, 20: 0.6710035634103249}}
