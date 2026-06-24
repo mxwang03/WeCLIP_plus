@@ -27,7 +27,7 @@ parser.add_argument("--config",
 parser.add_argument("--work_dir", default="results", type=str, help="work_dir")
 parser.add_argument("--bkg_score", default=0.45, type=float, help="bkg_score")
 parser.add_argument("--eval_set", default="val", type=str, help="eval_set")  # val
-parser.add_argument("--model_path", default="work_dir_voc/checkpoints/2026-06-04-06-35/wetr_iter_30000.pth", type=str,
+parser.add_argument("--model_path", default="work_dir_voc/checkpoints/2026-04-07-08-41/wetr_iter_30000.pth", type=str,
                     help="model_path")
 
 
@@ -60,9 +60,9 @@ def validate(model, dataset, test_scales=None):
 
         segs_list = []
         inputs_cat = torch.cat([inputs, inputs.flip(-1)], dim=0)
-        segs_clip_cat, segs_dino_cat, segs_fused_cat, cam, attn_loss = model(inputs_cat, names, mode='val')
+        segs_clip_cat, segs_dino_cat, cam, attn_loss = model(inputs_cat, names, mode='val')
 
-        segs_cat = segs_fused_cat
+        segs_cat = 0.5 * segs_dino_cat + 0.5 * segs_clip_cat
 
         cam = cam[0].unsqueeze(0)
         segs = segs_cat[0].unsqueeze(0)
@@ -77,10 +77,10 @@ def validate(model, dataset, test_scales=None):
                 _inputs = F.interpolate(inputs, scale_factor=s, mode='bilinear', align_corners=False)
                 inputs_cat = torch.cat([_inputs, _inputs.flip(-1)], dim=0)
 
-                segs_clip_cat, segs_dino_cat, segs_fused_cat, cam_cat, attn_loss = model(inputs_cat, names, mode='val')
+                segs_clip_cat, segs_dino_cat, cam_cat, attn_loss = model(inputs_cat, names, mode='val')
 
                 # 【恢复客观基线】最纯净的 0.5 + 0.5 平均融合
-                segs_cat = segs_fused_cat
+                segs_cat = 0.5 * segs_dino_cat + 0.5 * segs_clip_cat
 
                 _segs_cat = F.interpolate(segs_cat, size=(s_h, s_w), mode='bilinear', align_corners=False)
                 _segs = (_segs_cat[0, ...] + _segs_cat[1, ...].flip(-1)) / 2
