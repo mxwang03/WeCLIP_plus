@@ -237,11 +237,18 @@ class WeCLIP_Plus(nn.Module):
 
         dino_fts = F.interpolate(dino_fts, size=(fts_h, fts_w), mode='bilinear', align_corners=False)
 
-
         fts_enhanced, dino_fts_enhanced = self.cmca(fts, dino_fts)
 
         seg_clip, seg_attn_weight_list_clip = self.decoder(fts_enhanced)
         seg_dino, seg_attn_weight_list_dino = self.decoder(dino_fts_enhanced)
+
+        # =======================================================
+        # Test / Val 阶段不需要重新生成 CAM 伪标签
+        # 直接返回分割 logits，避免去 SegmentationClass/train 读取 mask
+        # 同时保持四变量返回，兼容 test_msc_flip_coco.py
+        # =======================================================
+        if mode != 'train':
+            return seg_clip, seg_dino, None, None
 
         clip_dino_fts = torch.cat([fts, dino_fts], dim=1)
 

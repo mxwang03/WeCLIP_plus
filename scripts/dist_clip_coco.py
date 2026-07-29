@@ -285,8 +285,22 @@ def train(cfg):
         seg_clip_loss2 = get_seg_loss(segs_clip, pred_label_dino.type(torch.long), ignore_index=cfg.dataset.ignore_index)
         seg_dino_loss2 = get_seg_loss(segs_dino, pred_label_clip.type(torch.long), ignore_index=cfg.dataset.ignore_index)
 
-        loss = 1 * seg_loss + 0.1 * attn_loss + 0.1 * seg_clip_loss2 + 0.1 * seg_dino_loss2 + 1 * seg_loss2
-        avg_meter.add({'seg_loss': seg_loss.item(), 'attn_loss': attn_loss.item()})
+        # =======================================================
+        # ✅ 新增：熵最小化正则化 (Entropy Minimization)
+        # =======================================================
+        # 将融合后的 logits 转换为概率分布
+        prob = F.softmax(segs, dim=1)
+        # 计算信息熵：H(p) = -sum(p * log(p))，加上 1e-8 防止 log(0)
+        entropy = -torch.sum(prob * torch.log(prob + 1e-8), dim=1)
+        # 提取 Batch 的平均熵作为损失惩罚项
+        entropy_loss = torch.mean(entropy)
+
+        # 设定柔性权重，确保它在主线任务基础上起微调作用
+        lambda_ent = 0.05
+
+        loss = 1 * seg_loss + 0.1 * attn_loss + 0.1 * (
+                seg_clip_loss2 + seg_dino_loss2) + 1 * seg_loss2 + lambda_ent * entropy_loss
+        avg_meter.add({'seg_loss': seg_loss.item(), 'attn_loss': attn_loss.item(), 'ent_loss': entropy_loss.item()})
 
         optimizer.zero_grad()
         loss.backward()
@@ -302,11 +316,14 @@ def train(cfg):
 
             seg_mAcc = (preds==gts).sum()/preds.size
 
+            logging.info(
+                "Iter: %d; Elasped: %s; ETA: %s; LR: %.3e;, pseudo_seg_loss: %.4f, attn_loss: %.4f, ent_loss: %.4f, pseudo_seg_mAcc: %.4f" % (
+                    n_iter + 1, delta, eta, cur_lr, avg_meter.pop('seg_loss'), avg_meter.pop('attn_loss'),
+                    avg_meter.pop('ent_loss'), seg_mAcc))
 
-            logging.info("Iter: %d; Elasped: %s; ETA: %s; LR: %.3e;, pseudo_seg_loss: %.4f, attn_loss: %.4f, pseudo_seg_mAcc: %.4f"%(
-                n_iter+1, delta, eta, cur_lr, avg_meter.pop('seg_loss'), avg_meter.pop('attn_loss'), seg_mAcc))
-
-            writer.add_scalars('train/loss',  {"seg_loss": seg_loss.item(), "attn_loss": attn_loss.item()}, global_step=n_iter)
+            # Tensorboard 记录增加熵的曲线
+            writer.add_scalars('train/loss', {"seg_loss": seg_loss.item(), "attn_loss": attn_loss.item(),
+                                              "ent_loss": entropy_loss.item()}, global_step=n_iter)
 
 
         if (n_iter + 1) % cfg.train.eval_iters == 0:
